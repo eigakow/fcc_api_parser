@@ -9,11 +9,12 @@ router.get('/', function(req, res) {
 
 router.get('/api/whoami/', function(req, res) {
 
-  //var ip = (req.headers['x-forwarded-for'] || req.connection.remoteAddress).match(/(^.*?),/)[1];
-  var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+  var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   if (/^.*?,/.test(ip)) { ip = ip.match(/(^.*?),/)[1]}
-  var lang = req.headers['accept-language'].match(/,([A-z]*);/)[1];
-  var os = req.headers['user-agent'].match(/\((.*?)\)/)[1];
+  var lang = req.headers['accept-language'];
+  if (/,[A-z]*;/.test(lang)) { lang = lang.match(/,([A-z]*);/)[1]}
+  var os = req.headers['user-agent'];
+  if (/\(.*?\)/.test(os)) { os = os.match(/\((.*?)\)/)[1]}
 
   //console.log(ip, lang, os);
   res.set('Content-Type', 'application/json');
